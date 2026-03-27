@@ -17,6 +17,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     strategy:
@@ -35,7 +38,6 @@ jobs:
     with:
       working-directory: .
       python-version: ${{ matrix.python-version }}
-    secrets: inherit
   test:
     strategy:
       matrix:
@@ -54,5 +56,4 @@ jobs:
     with:
       working-directory: .
       python-version: ${{ matrix.python-version }}
-    secrets: inherit
 
