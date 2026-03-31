@@ -137,7 +137,12 @@ def create_agent(
                 if call["name"] == retrieve_tools.name:
                     destinations.append(Send("select_tools", [call]))
                 else:
-                    tool_call = tool_node.inject_tool_args(call, state, store)
+                    _inject = getattr(
+                        tool_node,
+                        "_inject_tool_args",
+                        getattr(tool_node, "inject_tool_args", None),
+                    )
+                    tool_call = _inject(call, state, store)
                     destinations.append(Send("tools", [tool_call]))
 
             return destinations
